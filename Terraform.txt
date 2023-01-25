@@ -41,7 +41,7 @@ Terraform Provider
 			}
 		
 	- If we wont configure access_key and secret_key key in provider block then terraform 
-	  will try to fetch the keys from aws_cli that is using the below environment variables.
+	  will try to fetch the keys from aws_cli (aws -configure) that is using the below environment variables.
 			1. AWS_ACCESS_KEY_ID
 			2. AWS_SECRET_ACCESS_KEY
 			
