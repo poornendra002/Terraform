@@ -7,3 +7,5 @@ resource "aws_dynamodb_table" "basic-dynamodb-table" {
     type = "S"
   }  
 }
+
+# Dynamo_db is used as locking table.
