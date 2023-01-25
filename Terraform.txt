@@ -1,13 +1,15 @@
 
-Installation on windows:
+[Installation on windows:
   1. https://developer.hashicorp.com/terraform/downloads
   2. Use GIT Bash
   3. echo $PATH
   4. Add extracted folder of terraform to any of the above path 
       ex: /c/Users/anuka/bin
   
-  terraform -version
-      
+terraform -version
+Terraform is an open-source infrastructure as code software tool that enables users to provision and manage infrastructure resources through declarative configuration files. It supports multiple cloud providers, including AWS, Azure, and Google Cloud, as well as on-premises and other infrastructure. The tool can be used to create, update, and version infrastructure, making it easier to manage and track changes to resources over time.]
+
+
 Terraform 
 	- Terraform is an open source tool from HashiCorp company used to 
 	  write Insfrastructure as A Code (IaC) to automate provisioning the public cloud insfrasructure.
@@ -16,11 +18,11 @@ Terraform
 	
 	- Terraform code/configuration is written in HCL (HashiCorp Language) of type .tf
 	
-	- Terraform helps in prediction of changes through plans and we can know what changes 
+	- Terraform helps in prediction of changes through plans (terraform plan) and we can know what changes 
 	  will be applied before applying it.
 
 	- Terraform always keeps the infrastructure state saved and terraform at every apply 
-	  of the changes to insfrasructure is always matched with the state file and it predicts the changes 
+	  of the changes to insfrasructure, is always matched with the state file (terraform.tfstate) and it predicts the changes 
 	  need to be applied.
 	  
 	- Safe to run terraform code many times because terraform only apply the changes for 
@@ -30,7 +32,7 @@ Terraform
 	  scripts in github.
 	  
 Terraform Provider 
-	- providers are the API to interact with public clouds in our company, aws is the 
+	- providers are the API to interact with public clouds, in our company aws is the 
 	  provider that we are using.
 	- In a complete terraform project we can have only one provider block.
 		
@@ -41,9 +43,9 @@ Terraform Provider
 			}
 		
 	- If we wont configure access_key and secret_key key in provider block then terraform 
-	  will try to fetch the keys from aws_cli (aws -configure) that is using the below environment variables.
-			1. AWS_ACCESS_KEY_ID
-			2. AWS_SECRET_ACCESS_KEY
+	  will try to fetch the keys from aws_cli (taht is when we run aws -configure) that is using the below environment variables.
+			1. AWS_ACCESS_KEY_ID =
+			2. AWS_SECRET_ACCESS_KEY = 
 			
 	How to use multiple configurations with same provider block ?
 	How to use a provider with multiple region ? 
@@ -78,8 +80,8 @@ Terraform Provider
 			}
 			
 Terraform Registry 
-	- Terraform registry is a repository of modules and resources which are wrrite by trerraform 
-	  w.r.t public clouds and we user this resources for provisioning	public clouds.
+	- Terraform registry is a repository of modules and resources which are written by trerraform 
+	  w.r.t public clouds and we use this resources for provisioning the public clouds.
 	- Terraform regisrty is also a community based registry which are maintained by providers only.
 	
 		URL: regisrty.terraform.io
@@ -91,15 +93,17 @@ Terraform Registry
 Assignment: List all the resource types of aws provider which you know in aws ? 
 
 Terraform init 
-	- This command we use to insitialize a working directory containing terraform script as 
+	- This command we use to initialize a working directory containing terraform script as 
 	  terraform project. 
 	- This in the first command that should be executed after writing a new terraform script.
-    - It is safe to run this command multiple times. 
+        - It is safe to run this command multiple times. 
 			
-		The insitializations steps are: 
+		The initializations steps are: 
 			1. Initializing the Backend ....
 			2. Initializing provider plugins ...
 			3. Initializing the child modules ...
+[The terraform init command is used to initialize a Terraform working directory. This command is typically run after writing or cloning Terraform configurations in order to download and install any required provider plugins, and to set up the backend for storing state. It is the first command that should be run when starting to use Terraform in a new working directory.
+]
 			
 terraform plan 
 	- the terraform plan is used to create a execution plan which internally performs a refresh 
@@ -119,26 +123,27 @@ terraform apply
 	- This will internally run the plan again then with the user confirmation the predicted 
 	  changes will be applied.
 		
-	To apply changes will out user confirmation 
+	To apply changes with out user confirmation 
 		terraform apply --auto-approve
 	
-	To run a perticular terraform script
+	To run a particular terraform script
 		terraform apply <script>.tf <script1>.tf
 		
-	To apply a plan file
+	To apply a plan file                                                                [The plan file created using terraform plan -out plan.out]
 		terraform apply <plan_file>
 			
 tarraform destroy 
 	- This is used to destroy the resources which are manged by this current terraform 
 	  scripts.
-    - Crate a destroy plan
+        - Crate a destroy plan
 
-		TO destroy one resource
+		To destroy one resource
 			terraform destroy -target <resource_type>.<resource_name>
 			example: terraform destroy -target aws_instance.ec2_ubuntu
 
 terraform validate 
 	- This is to validate the syntax of the terraform scripts in a project.
+	
 terraform show : This command inspects the file and displays resource details.
 
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs  :use documentation
