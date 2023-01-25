@@ -140,6 +140,8 @@ tarraform destroy
 terraform validate 
 	- This is to validate the syntax of the terraform scripts in a project.
 terraform show : This command inspects the file and displays resource details.
+
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs  :use documentation
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 Terraform State 
 	Local - we can keep the state file locally in the same machine where we 
