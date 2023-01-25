@@ -8,3 +8,5 @@ module "dynamo_db_create" {
     hash_key = var.hash_key
     name = var.name
 }
+    
+# Directory modules under project3 is misspelled, make sure the spelling is correct before executing.
