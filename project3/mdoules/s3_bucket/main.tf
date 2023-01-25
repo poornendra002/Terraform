@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "s3_backend" {
-   bucket = var.bucket_name
+   bucket = var.bucket
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "s3_backend_sse" {
