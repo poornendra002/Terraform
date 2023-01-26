@@ -212,3 +212,215 @@ Terraform module
 	- We can segregate the scripts instead of writing everything in the same script.
 	- We can reuse the child modules in other projects also.
 	- These are always user defined 
+	
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Taint 
+	- The terraform taint command is used to mark a terraform managed resource as tainted, which means 
+	  the resource to be destroyed and recreated in the next apply.
+	- Taint will not mark the actual resource in the cloud but it marks in the state file.
+	
+	To list resource in state 
+		terraform state list
+	To taint a resource 
+		terraform taint <terra_arn>
+		terraform taint aws_instance.example
+  [	In this example, the "aws_instance.example" resource is being marked for recreation. When you run "terraform apply" next time, Terraform will destroy and   	    recreate this instance, while leaving other resources in your infrastructure untouched.
+	
+	You can also use terraform taint -module=MODULE_NAME RESOURCE_ADDRESS to taint a resource that is in a module.
+        It's important to note that tainting a resource will not destroy the resource immediately, it will happen only when you run terraform apply next time.  ]
+
+
+
+Provisioners 
+	- Provisioners are used to copy files and directories, run command from terraform source machine to cloud 
+	  resources as a part of resource creation.
+	- They are similar to user-data scripts.
+	- Most Provisioners requires authentication to run command via ssh or WinRM and we need to
+	  define the connection.
+		(connection is a sub-block)
+		connection {
+		     type = "ssh"
+		     user = "root"
+		     password = ""
+		     host = "<ip>"				
+		}	
+	
+
+	file 
+	    - The file Provisioner is used to copy file or directories from terraform project to cloud 
+	      compute resource.
+	    - This provisioner needs a connection to cloud resource.
+	    	 	
+	remote-exec 
+	    - The remote-exec Provisioner is used to run command or script from terraform project to cloud 
+	      compute resource.
+	    - This provisioner needs a connection to cloud resource.
+
+
+	1. ec2 instance with sg 	
+	2. file provisioner - should find a file /home/ubuntu/text.txt
+	3. remote-exec - Docker installed and file /home/ubuntu/remote-exec.txt
+	4. local-exec - creates file Conf/ec2_ips.txt (with ec2 ip address)
+
+[ Provisioners in Terraform are used to configure and provision resources after they have been created. 
+They can be used to run scripts, copy files, or execute other actions on the created resources.
+
+There are two types of provisioners in Terraform:
+
+Local provisioners: These provisioners run on the machine where Terraform is executed, and are used to configure the resource after it has been created.
+Remote provisioners: These provisioners run on the created resource, and are used to configure the resource after it has been created.
+Provisioners are defined within a resource block and can be used to perform tasks like installing software, configuring settings, 
+and running scripts on the created resource.  ]
+
+
+Terraform workspace 
+	- workspace are a way of managing different set of statefiles which are independent to 
+	  each other.
+	- Every configuration should be in a workspace.
+	- "default" is the default workspace in terraform 
+	
+	To list workspace
+		terraform workspace list
+	
+	To create workspace 
+		terraform workspace new <workspace_name>
+
+	To switch between workspace
+		terraform workspace select <workspace_name>
+	
+	To delete workspace 
+		terraform workspace delete <workspace_name>
+
+	Usage: 
+	   -  We can deploy different version of terraform scripts with states associated with it.
+	   -  We can maintain different set of infrastructure with same terraform repo with different 
+	      state files.
+	   -  We can deploy based on environment categorisation.
+
+data source / data resource 
+	- A data source is used to get the information dynamically from cloud.
+	- This block is read-only and this will be always executed on every plan and apply.
+	- we can query the required information and filter the field we want.
+
+Null resource 		
+	- The null resoruce will have the complete lifecycle support but there will be no change in the cloud configurations.
+	- We can use triggers to collect the data of some resources.
+	- We can use connections to connect ot resoruce using provisioners.
+	- The triggers argument allows specifying an arbitory set of values only when changed, triiger will update the value.
+	
+		resoruce "null_resource" "<resource_name>" {
+			
+		}
+
+null_data_resource 
+	- This block we are not using in our company we use data block instead of this.
+	
+	data "null_data_source" "values" {
+		  inputs = {
+			all_server_ids = concat(aws_instance.green.*.id, aws_instance.blue.*.id)
+			all_server_ips = concat(aws_instance.green.*.private_ip, aws_instance.blue.*.private_ip)
+		  }
+	}	
+
+
+terraform settings 
+	- used for specifying provider requirements. 
+	- we can restrict the provider version.
+	- we configure backend in this settings 
+	- we use terraform block 
+	- we can control the terraform version.
+	- default file terraform.tf / versions.tf 	
+		
+		terraform {
+			
+		}
+
+tf.vars vs variables.tf 
+	variables.tf we can have variable block but variable blocks will not work in tf.vars
+	tf.vars is to create variables whose scope will be at root module level.
+
+	we use variables.tf to declare variables and we use tf.vars to asing value to variables.	
+	
+Terraform refresh 
+	- Terraform refresh will find the updates done in the cloud resources by comparing the changes with state file.	
+	- This won't modify your real remote objects, but it will modify the the Terraform state.
+
+
+Terraform import  (Importing existing aws resource to terraform)
+	- we are using terraforming tool in our company to import the existing configurations. 
+	  Install terraforming in RHEL/Centos 
+		(https://github.com/dtan4/terraforming)		
+			sudo yum install rubygems
+			sudo gem install terraforming
+
+Terraform loops (count and for_each)	
+	resource "null_resource" "loop_simple" {
+		count = 2 
+	}
+	
+	output "loop_out" {
+		value = null_resource.loop_simple
+	}
+	
+	
+	List count example
+	
+	locals {
+		names = ["bucket1","bucket2","bucket3","bucket4"]
+	}
+	
+	resource "null_resource" "names" {
+		count = length(local.names)
+		triggers = {
+			name = local.names[count.index]
+		}
+	}
+	
+	output "list_out" {
+		value = null_resource.names
+	}
+	
+	
+	List for_each example
+	
+	locals {
+		names = ["bucket1","bucket2","bucket3","bucket4"]
+	}
+	
+	resource "null_resource" "names" {
+		for_each = toset(local.names)
+		triggers = {
+			name = each.value
+		}
+	}
+	
+	output "list_out" {
+		value = null_resource.names
+	}
+	
+	Map for_each example
+	
+	locals {
+		names = { 
+			bucket1 = "region1"
+			bucket2 = "region2"
+			bucket3 = "region3"
+			bucket4 = "region4"
+		}
+	}
+	
+	resoruce "null_resource" "names" {
+		for_each = local.names
+		triggers = {
+			bucket = each.key
+			region = each.value
+		}
+	}
+	
+	output "list_out" {
+		value = null_resource.names
+	}
+
+
+Study Terragrunt by Gruntwork.io
