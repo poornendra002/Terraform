@@ -21,3 +21,5 @@ module "ec2_local_exec_provisioner" {
     source = "./modules/local-exec"
     ec2_public_ip = module.ec2_create.ec2_public_ip
 }
+
+#Do not hardcode these values, better to write them in variables.tf
