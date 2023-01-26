@@ -400,6 +400,8 @@ data source / data resource
 	- A data source is used to get the information dynamically from cloud.
 	- This block is read-only and this will be always executed on every plan and apply.
 	- we can query the required information and filter the field we want.
+	
+[ In Terraform, a "data resource" is a way to retrieve information about an existing resource in a provider's API, without making any changes to that resource. This information can then be used in Terraform's configuration and used to create, update or delete other resources. For example, a data resource can be used to retrieve the IP address of an existing server, and then use that information to configure a firewall rule that allows traffic to that server. Data resources are defined in the same way as other resources in Terraform, but with the "data" keyword instead of "resource".]
 
 Null resource 		
 	- The null resoruce will have the complete lifecycle support but there will be no change in the cloud configurations.
@@ -421,6 +423,9 @@ null_data_resource
 		  }
 	}	
 
+[In Terraform, a "trigger" is a way to specify that a resource should be recreated or updated when a certain condition is met. Triggers can be used to ensure that a resource is always in a certain state, or to handle situations where a resource is managed by another system outside of Terraform.
+Triggers are specified using the "triggers" block within a resource block. The block can contain one or more triggers, each with a unique name.]
+
 
 terraform settings 
 	- used for specifying provider requirements. 
@@ -438,8 +443,18 @@ tf.vars vs variables.tf
 	variables.tf we can have variable block but variable blocks will not work in tf.vars
 	tf.vars is to create variables whose scope will be at root module level.
 
-	we use variables.tf to declare variables and we use tf.vars to asing value to variables.	
+	we use variables.tf to declare variables and we use tf.vars to assign value to variables.	
 	
+[ In Terraform, both tf.vars and variables.tf are used to define variables that can be used in the Terraform configuration.
+variables.tf is a file where you can define your variables in (HCL). Variables defined in this file can be used throughout your Terraform configuration.
+
+tf.vars is a file where you can assign values to the variables that are defined in variables.tf. 
+It is a JSON file where you can assign values to the variables.
+
+It's worth noting that variables defined in tf.vars file will overwrite the default values defined in variables.tf file, if the same variable is defined in both files.
+In summary, variables.tf is used to define the variables and their types, while tf.vars is used to assign values to these variables.
+By separating the definition and the assignment of the variables, it allows to keep the structure of the code more clear and also make it easier to manage the same infrastructure in different environments. ]
+
 Terraform refresh 
 	- Terraform refresh will find the updates done in the cloud resources by comparing the changes with state file.	
 	- This won't modify your real remote objects, but it will modify the the Terraform state.
@@ -451,6 +466,12 @@ Terraform import  (Importing existing aws resource to terraform)
 		(https://github.com/dtan4/terraforming)		
 			sudo yum install rubygems
 			sudo gem install terraforming
+[ The terraform import command is used to import existing resources into a Terraform state. This allows you to take existing resources that were created outside of Terraform and manage them with Terraform.The basic syntax for the terraform import command is as follows:
+terraform import [options] <resource address> <resource ID>
+The resource address is the address of the resource in the Terraform configuration file, and the resource ID is the ID of the existing resource that you want to import.
+For example, if you have an existing AWS S3 bucket with the ID "my-bucket", and you want to import that bucket into Terraform, you would run the following command
+terraform import aws_s3_bucket.example my-bucket
+This would import the "my-bucket" S3 bucket into Terraform, and create a new state file that includes the S3 bucket as a managed resource. From then on, Terraform will recognize the bucket as a managed resource, and you can use Terraform to update, delete, or track changes to the resource.]
 
 Terraform loops (count and for_each)	
 	resource "null_resource" "loop_simple" {
