@@ -58,3 +58,8 @@ resource "aws_security_group" "ec2_sg" {
 
 #If "most_recent = true" is set in the data source block, Terraform will fetch the most recent version of the data from the specified source. 
 #If set to "false", Terraform will fetch the data as it existed at the time the last Terraform operation was performed.
+
+#A filter block is a type of block used in data processing that is designed to filter out certain elements of a dataset based on specific criteria. 
+#This can include filtering out rows or columns that contain certain values, or removing duplicates from a dataset. When used with a data block, 
+#the filter block can be used to pre-process the data before it is passed on to other blocks for further analysis or visualization. 
+#Filter blocks are often used in data pipelines and workflows to ensure that the data is clean and accurate before it is used for other purposes.
