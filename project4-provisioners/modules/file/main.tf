@@ -13,3 +13,6 @@ resource "null_resource" "file_copy" {
     }
 
 }
+
+# when we mention agent false, no need to provide prompt. It doesn't ask for yes.
+#The above shown is two ways of meantioning the variables
