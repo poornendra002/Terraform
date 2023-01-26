@@ -471,7 +471,10 @@ terraform import [options] <resource address> <resource ID>
 The resource address is the address of the resource in the Terraform configuration file, and the resource ID is the ID of the existing resource that you want to import.
 For example, if you have an existing AWS S3 bucket with the ID "my-bucket", and you want to import that bucket into Terraform, you would run the following command
 terraform import aws_s3_bucket.example my-bucket
-This would import the "my-bucket" S3 bucket into Terraform, and create a new state file that includes the S3 bucket as a managed resource. From then on, Terraform will recognize the bucket as a managed resource, and you can use Terraform to update, delete, or track changes to the resource.]
+
+This would import the "my-bucket" S3 bucket into Terraform, and create a new state file that includes the S3 bucket as a managed resource. From then on, Terraform will recognize the bucket as a managed resource, and you can use Terraform to update, delete, or track changes to the resource.
+In summary, terraform import is a feature of Terraform and it requires the terraform tool to be installed, 
+it also needs a corresponding configuration file and access to the resources. ]
 
 Terraform loops (count and for_each)	
 	resource "null_resource" "loop_simple" {
@@ -543,3 +546,5 @@ Terraform loops (count and for_each)
 
 
 Study Terragrunt by Gruntwork.io
+
+Terragrunt is a tool that provides additional functionality on top of Terraform. It is used to manage Terraform modules, and to make it easier to collaborate on Terraform projects. Specifically, it allows for remote state management, automatic locking and dependency management, making it easier to manage and organize Terraform codebase. Additionally, it provides some features like "dry-run" which allows to validate the syntax and the execution plan before applying it.
