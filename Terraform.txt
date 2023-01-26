@@ -225,6 +225,14 @@ Taint
 	To taint a resource 
 		terraform taint <terra_arn>
 		terraform taint aws_instance.example
+        To remove the taint
+		terraform untaint <terra_arn>
+	The command to list tainted resources in Terraform is 
+		terraform state list -module=module_name | grep "tainted".
+
+	This command will list all the resources that are currently in a "tainted" state for a specific module. 
+	Replace "module_name" with the name of the module you want to check.
+	
   [	In this example, the "aws_instance.example" resource is being marked for recreation. When you run "terraform apply" next time, Terraform will destroy and   	    recreate this instance, while leaving other resources in your infrastructure untouched.
 	
 	You can also use terraform taint -module=MODULE_NAME RESOURCE_ADDRESS to taint a resource that is in a module.
@@ -238,12 +246,22 @@ Provisioners
 	- They are similar to user-data scripts.
 	- Most Provisioners requires authentication to run command via ssh or WinRM and we need to
 	  define the connection.
+	  
+	 [ In Terraform, a "connection" block is used to configure the connection settings for a specific provider. 
+	 It is typically used within a resource or data block and allows you to specify the connection details for the resource or data source you are creating.
+	 
+	 The "type" field specifies the type of connection, such as "ssh" or "api". 
+	 The "host" field specifies the hostname or IP address of the resource or data source. 
+	 The "user" and "password" fields are used to specify the username and password for the connection. 
+	 The "private_key" field is used to specify the path to a private key file when using an SSH connection.
+	 The syntax for a connection block is as follows:
 		(connection is a sub-block)
 		connection {
 		     type = "ssh"
 		     user = "root"
 		     password = ""
-		     host = "<ip>"				
+		     host = "<ip>"	
+		     private_key = "PRIVATE_KEY"
 		}	
 	
 
@@ -271,7 +289,80 @@ There are two types of provisioners in Terraform:
 Local provisioners: These provisioners run on the machine where Terraform is executed, and are used to configure the resource after it has been created.
 Remote provisioners: These provisioners run on the created resource, and are used to configure the resource after it has been created.
 Provisioners are defined within a resource block and can be used to perform tasks like installing software, configuring settings, 
-and running scripts on the created resource.  ]
+and running scripts on the created resource.  
+Here's an example of how to use a local provisioner in Terraform:
+
+resource "aws_instance" "example" {
+  ami           = "ami-0c94855ba95c71c99"
+  instance_type = "t2.micro"
+
+  provisioner "local-exec" {
+    command = "echo 'Hello, World!' > index.html"
+  }
+}
+
+In this example, the local-exec provisioner is used to run a command on the local machine after the aws_instance resource has been created.
+Here is an example of how to use a remote provisioner in Terraform:
+
+resource "aws_instance" "example" {
+  ami           = "ami-0c94855ba95c71c99"
+  instance_type = "t2.micro"
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get update",
+      "sudo apt-get install -y apache2"
+    ]
+  }
+}
+
+In this example, the remote-exec provisioner is used to run commands on the created instance after it has been created.
+
+A "file" provisioner in Terraform allows you to upload a local file to a remote machine created by Terraform as part of a provisioning process. 
+This can be useful for uploading configuration files, scripts, or other files that are needed for the operation of the machine.
+
+The syntax for a file provisioner block is as follows:
+
+resource "resource_type" "resource_name" {
+  ...
+  provisioner "file" {
+    source      = "path/to/local/file"
+    destination = "path/to/remote/file"
+    connection {
+      type        = "ssh"
+      host        = "hostname"
+      user        = "username"
+      password    = "password"
+      private_key = "path/to/private/key"
+    }
+  }
+}
+
+The source field is the path to the local file that you want to upload, and the destination field is the path on the remote machine where the file should be uploaded.
+
+You can also use the connection block to specify the connection details for the file provisioner, like so:
+This is useful when the provisioner needs to connect to the remote machine over SSH.
+Keep in mind that the file provisioner is executed after the Terraform resource is created, so the machine must be up and running, and the connection details must be valid for the file provisioner to work.
+
+It's important to note that provisioners are executed only once, when the resource is created. 
+You should use data resources and external data sources to perform actions on an already created resource.
+
+null resource: 
+
+In Terraform, a "null resource" is a special type of resource that allows you to perform arbitrary actions, such as running scripts or making API calls, without actually creating or managing any infrastructure. This can be useful when you need to perform actions that are not directly related to provisioning or managing infrastructure, such as sending notifications, triggering webhooks, or creating backups.
+A null resource is defined using the null_resource block in Terraform configuration. 
+It can have provisioners defined, which will be executed when the resource is created, updated or deleted.
+
+resource "null_resource" "example" {
+  provisioner "local-exec" {
+    command = "echo 'Hello, World!' > index.html"
+  }
+}
+
+It's important to note that null resources do not create or manage any infrastructure, they only run provisioners. 
+Say for example: The requirement is to run provisioner block inside ec2-instance resource block, as we already have ec2-instance module defined I can use null_resource block, so that we can run provsioner as sub-block . null-resource means no resource is being created which means no change in the cloud configuration.
+
+]
 
 
 Terraform workspace 
