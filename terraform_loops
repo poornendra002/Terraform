@@ -1,0 +1,66 @@
+	resource "null_resource" "loop_simple" {
+		count = 2 
+	}
+	
+	output "loop_out" {
+		value = null_resource.loop_simple
+	}
+	
+	
+	List count example
+	
+	locals {
+		names = ["bucket1","bucket2","bucket3","bucket4"]
+	}
+	
+	resource "null_resource" "names" {
+		count = length(local.names)
+		triggers = {
+			name = local.names[count.index]
+		}
+	}
+	
+	output "list_out" {
+		value = null_resource.names
+	}
+	
+	
+	List for_each example
+	
+	locals {
+		names = ["bucket1","bucket2","bucket3","bucket4"]
+	}
+	
+	resource "null_resource" "names" {
+		for_each = toset(local.names)
+		triggers = {
+			name = each.value
+		}
+	}
+	
+	output "list_out" {
+		value = null_resource.names
+	}
+	
+	Map for_each example
+	
+	locals {
+		names = { 
+			bucket1 = "region1"
+			bucket2 = "region2"
+			bucket3 = "region3"
+			bucket4 = "region4"
+		}
+	}
+	
+	resoruce "null_resource" "names" {
+		for_each = local.names
+		triggers = {
+			bucket = each.key
+			region = each.value
+		}
+	}
+	
+	output "list_out" {
+		value = null_resource.names
+	}
