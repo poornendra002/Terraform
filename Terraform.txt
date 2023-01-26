@@ -388,6 +388,13 @@ Terraform workspace
 	   -  We can maintain different set of infrastructure with same terraform repo with different 
 	      state files.
 	   -  We can deploy based on environment categorisation.
+[ Terraform workspace is like Git branching
+In Terraform, a "workspace" is a way to separate and organize different sets of infrastructure resources. 
+Each workspace is essentially a separate Terraform state, allowing you to manage multiple environments (e.g. development, staging, production) 
+or projects within the same Terraform configuration.
+It's important to note that each workspace maintains its own state and configuration, 
+so you should be careful when switching between workspaces to avoid accidentally applying changes to the wrong environment or project.
+]
 
 data source / data resource 
 	- A data source is used to get the information dynamically from cloud.
