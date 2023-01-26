@@ -53,3 +53,8 @@ resource "aws_security_group" "ec2_sg" {
         cidr_blocks      = ["0.0.0.0/0"]
     }
 }
+
+#The "most_recent" argument is a boolean value that is used in some data sources to specify whether to return the most recent version of the requested data.
+
+#If "most_recent = true" is set in the data source block, Terraform will fetch the most recent version of the data from the specified source. 
+#If set to "false", Terraform will fetch the data as it existed at the time the last Terraform operation was performed.
