@@ -66,4 +66,4 @@ resource "aws_security_group" "ec2_sg" {
 
 #Points to remember
 #AMI name is my-test-instance
-#Instance name is PROVISIONER
+#Filter values should be proper
