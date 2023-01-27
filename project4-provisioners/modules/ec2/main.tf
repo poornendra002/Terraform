@@ -1,25 +1,6 @@
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  owners = ["self"]
-     
-  filter {
-    name   = "tag:Name"
-    values = ["my-test-instance"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "state"
-    values = ["available"]
-  }   
-}
 
 resource "aws_instance" "ec2_provisioner" {
-    ami = data.aws_ami.ubuntu.id
+    ami = var.ec2_ami
     instance_type = var.ec2_instance_type
     key_name = var.ec2_pem
     vpc_security_group_ids = ["${aws_security_group.ec2_sg.id}"]
