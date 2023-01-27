@@ -401,7 +401,11 @@ data source / data resource
 	- This block is read-only and this will be always executed on every plan and apply.
 	- we can query the required information and filter the field we want.
 	
-[ In Terraform, a "data resource" is a way to retrieve information about an existing resource in a provider's API, without making any changes to that resource. This information can then be used in Terraform's configuration and used to create, update or delete other resources. For example, a data resource can be used to retrieve the IP address of an existing server, and then use that information to configure a firewall rule that allows traffic to that server. Data resources are defined in the same way as other resources in Terraform, but with the "data" keyword instead of "resource".]
+[ In Terraform, a "data resource" is a way to retrieve information about an existing resource in a provider's API, without making any changes to that resource. 
+This information can then be used in Terraform's configuration and used to create, update or delete other resources. 
+For example, a data resource can be used to retrieve the IP address of an existing server, and then use that information to 
+configure a firewall rule that allows traffic to that server. 
+Data resources are defined in the same way as other resources in Terraform, but with the "data" keyword instead of "resource".]
 
 Null resource 		
 	- The null resoruce will have the complete lifecycle support but there will be no change in the cloud configurations.
