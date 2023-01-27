@@ -63,3 +63,7 @@ resource "aws_security_group" "ec2_sg" {
 #This can include filtering out rows or columns that contain certain values, or removing duplicates from a dataset. When used with a data block, 
 #the filter block can be used to pre-process the data before it is passed on to other blocks for further analysis or visualization. 
 #Filter blocks are often used in data pipelines and workflows to ensure that the data is clean and accurate before it is used for other purposes.
+
+#Points to remember
+#AMI name is my-test-instance
+#Instance name is PROVISIONER
