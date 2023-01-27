@@ -415,7 +415,7 @@ Null resource
 	
 		resoruce "null_resource" "<resource_name>" {
 			
-		}
+		} 
 
 null_data_resource 
 	- This block we are not using in our company we use data block instead of this.
