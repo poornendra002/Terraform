@@ -7,7 +7,9 @@
       ex: /c/Users/anuka/bin
   
 terraform -version
-Terraform is an open-source infrastructure as code software tool that enables users to provision and manage infrastructure resources through declarative configuration files. It supports multiple cloud providers, including AWS, Azure, and Google Cloud, as well as on-premises and other infrastructure. The tool can be used to create, update, and version infrastructure, making it easier to manage and track changes to resources over time.]
+[Terraform is an open-source infrastructure as code software tool that enables users to provision and manage infrastructure resources 
+through declarative configuration files. It supports multiple cloud providers, including AWS, Azure, and Google Cloud, as well as on-premises 
+and other infrastructure. The tool can be used to create, update, and version infrastructure, making it easier to manage and track changes to resources over time.]
 
 
 Terraform 
@@ -145,6 +147,7 @@ terraform validate
 	- This is to validate the syntax of the terraform scripts in a project.
 	
 terraform show : This command inspects the file and displays resource details.
+                 # terraform show <state_file>
 
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs  :use documentation
 ------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -342,15 +345,19 @@ The source field is the path to the local file that you want to upload, and the 
 
 You can also use the connection block to specify the connection details for the file provisioner, like so:
 This is useful when the provisioner needs to connect to the remote machine over SSH.
-Keep in mind that the file provisioner is executed after the Terraform resource is created, so the machine must be up and running, and the connection details must be valid for the file provisioner to work.
+Keep in mind that the file provisioner is executed after the Terraform resource is created, so the machine must be up and running, and the connection details 
+must be valid for the file provisioner to work.
 
 It's important to note that provisioners are executed only once, when the resource is created. 
 You should use data resources and external data sources to perform actions on an already created resource.
 
 null resource: 
 
-In Terraform, a "null resource" is a special type of resource that allows you to perform arbitrary actions, such as running scripts or making API calls, without actually creating or managing any infrastructure. This can be useful when you need to perform actions that are not directly related to provisioning or managing infrastructure, such as sending notifications, triggering webhooks, or creating backups.
+In Terraform, a "null resource" is a special type of resource that allows you to perform arbitrary actions, such as running scripts or making API calls, 
+without actually creating or managing any infrastructure. This can be useful when you need to perform actions that are not directly related to 
+provisioning or managing infrastructure, such as sending notifications, triggering webhooks, or creating backups.
 A null resource is defined using the null_resource block in Terraform configuration. 
+
 It can have provisioners defined, which will be executed when the resource is created, updated or deleted.
 
 resource "null_resource" "example" {
@@ -360,7 +367,9 @@ resource "null_resource" "example" {
 }
 
 It's important to note that null resources do not create or manage any infrastructure, they only run provisioners. 
-Say for example: The requirement is to run provisioner block inside ec2-instance resource block, as we already have ec2-instance module defined I can use null_resource block, so that we can run provsioner as sub-block . null-resource means no resource is being created which means no change in the cloud configuration.
+Say for example: The requirement is to run provisioner block inside ec2-instance resource block, as we already have ec2-instance module defined I can 
+use null_resource block, so that we can run provsioner as sub-block . null-resource means no resource is being created which means no change in 
+the cloud configuration.
 
 ]
 
@@ -410,7 +419,7 @@ Data resources are defined in the same way as other resources in Terraform, but 
 Null resource 		
 	- The null resoruce will have the complete lifecycle support but there will be no change in the cloud configurations.
 	- We can use triggers to collect the data of some resources.
-	- We can use connections to connect ot resoruce using provisioners.
+	- We can use connections to connect to resoruce using provisioners.
 	- The triggers argument allows specifying an arbitory set of values only when changed, triiger will update the value.
 	
 		resoruce "null_resource" "<resource_name>" {
@@ -427,7 +436,9 @@ null_data_resource
 		  }
 	}	
 
-[In Terraform, a "trigger" is a way to specify that a resource should be recreated or updated when a certain condition is met. Triggers can be used to ensure that a resource is always in a certain state, or to handle situations where a resource is managed by another system outside of Terraform.
+[In Terraform, a "trigger" is a way to specify that a resource should be recreated or updated when a certain condition is met. 
+Triggers can be used to ensure that a resource is always in a certain state, or to handle situations where a resource is managed by 
+another system outside of Terraform.
 Triggers are specified using the "triggers" block within a resource block. The block can contain one or more triggers, each with a unique name.]
 
 
