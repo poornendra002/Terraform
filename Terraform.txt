@@ -115,7 +115,7 @@ terraform plan
 	- Plan will never do any changes to the actual insfrasructure it just gives what desired 
 	  state will be applied.
 	
-	To save a plan in a file 
+	To save a plan in a file : This file will be in binary format 
 		terraform plan -out <file_name>	
 		terraform plan -out plan.out	
 
