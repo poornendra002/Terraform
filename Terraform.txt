@@ -563,3 +563,15 @@ Terraform loops (count and for_each)
 Study Terragrunt by Gruntwork.io
 
 Terragrunt is a tool that provides additional functionality on top of Terraform. It is used to manage Terraform modules, and to make it easier to collaborate on Terraform projects. Specifically, it allows for remote state management, automatic locking and dependency management, making it easier to manage and organize Terraform codebase. Additionally, it provides some features like "dry-run" which allows to validate the syntax and the execution plan before applying it.
+
+Terrafrom blocks that i have written
+	providers
+	local
+	variable
+	output
+	resource 
+	attribute
+	module
+	backend
+	terraform
+	required_providers
