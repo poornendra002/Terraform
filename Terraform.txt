@@ -571,6 +571,7 @@ Terrafrom blocks that i have written
 	output
 	resource 
 	attribute
+	data
 	module
 	backend
 	terraform
