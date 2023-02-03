@@ -7,15 +7,12 @@
       ex: /c/Users/anuka/bin
   
 terraform -version
-[Terraform is an open-source infrastructure as code software tool that enables users to provision and manage infrastructure resources 
-through declarative configuration files. It supports multiple cloud providers, including AWS, Azure, and Google Cloud, as well as on-premises 
-and other infrastructure. The tool can be used to create, update, and version infrastructure, making it easier to manage and track changes to resources over time.]
-
 
 Terraform 
-	- Terraform is an open source tool from HashiCorp company used to 
-	  write Insfrastructure as A Code (IaC) to automate provisioning the public cloud insfrasructure.
-  	
+[Terraform is an open-source infrastructure as code software tool created by Harshi corp that allows us to provision and manage infrastructure resources 
+through declarative configuration files. It supports multiple cloud providers, including AWS, Azure, and Google Cloud, as well as on-premises and other infrastructure.]
+
+ 	
 	- Terraform is written in Golang and available on GitHub 
 	
 	- Terraform code/configuration is written in HCL (HashiCorp Language) of type .tf
@@ -23,14 +20,13 @@ Terraform
 	- Terraform helps in prediction of changes through plans (terraform plan) and we can know what changes 
 	  will be applied before applying it.
 
-	- Terraform always keeps the infrastructure state saved and terraform at every apply 
-	  of the changes to insfrasructure, is always matched with the state file (terraform.tfstate) and it predicts the changes 
-	  need to be applied.
+	- Terraform always keeps the infrastructure state saved in terraform.tfstate file and every time u update/make changes and 
+	  apply , it always checks with the state file (terraform.tfstate) and it predicts the changes need to be applied.
 	  
 	- Safe to run terraform code many times because terraform only apply the changes for 
-	  the first if the chagnes are not there in state.
+	  the first if the chagnes are not there in state. i.e it matches the desired with actual.
 
-	- Terraform scripts can be version contralled means we keep the terraform 
+	- Terraform scripts can be version controlled means we keep the terraform 
 	  scripts in github.
 	  
 Terraform Provider 
@@ -45,7 +41,7 @@ Terraform Provider
 			}
 		
 	- If we wont configure access_key and secret_key key in provider block then terraform 
-	  will try to fetch the keys from aws_cli (taht is when we run aws -configure) that is using the below environment variables.
+	  will try to fetch the keys from aws_cli (taht is when we run aws configure) that is using the below environment variables.
 			1. AWS_ACCESS_KEY_ID =
 			2. AWS_SECRET_ACCESS_KEY = 
 			
@@ -71,21 +67,21 @@ Terraform Provider
 		}		
 		
 		How to use provider alias ?
-			resource "<resource_type>" "<resource_name>" {
-				provider = aws.region1
-			}
+			providers = {
+  					aws = aws.south
+  					}
 			
 			resource "aws_instance" "my_instance" {
-				provider = aws.region2
+				providers = {
+  					aws = aws.south
+  					}
 				ami = ""
 				instance_type = "t2.micro"
 			}
 			
 Terraform Registry 
-	- Terraform registry is a repository of modules and resources which are written by trerraform 
-	  w.r.t public clouds and we use this resources for provisioning the public clouds.
-	- Terraform regisrty is also a community based registry which are maintained by providers only.
-	
+	- Terraform registry is a repository of modules and resources for provisioning and managing the public clouds.
+	- Terraform regisrty is also a community based registry which are maintained by providers only. [Not sure if of this statement :which are written by terraform w.r.t public clouds ]
 		URL: regisrty.terraform.io
 		
 	Example: aws - ec2 instance -> aws_instance
@@ -97,23 +93,21 @@ Assignment: List all the resource types of aws provider which you know in aws ?
 Terraform init 
 	- This command we use to initialize a working directory containing terraform script as 
 	  terraform project. 
-	- This in the first command that should be executed after writing a new terraform script.
+	- This in the first command that should be executed after writing a new terraform script or cloning Terraform configurations.
         - It is safe to run this command multiple times. 
 			
 		The initializations steps are: 
 			1. Initializing the Backend ....
 			2. Initializing provider plugins ...
 			3. Initializing the child modules ...
-[The terraform init command is used to initialize a Terraform working directory. This command is typically run after writing or cloning Terraform configurations in order to download and install any required provider plugins, and to set up the backend for storing state. It is the first command that should be run when starting to use Terraform in a new working directory.
-]
-			
+	
 terraform plan 
-	- the terraform plan is used to create a execution plan which internally performs a refresh 
-	  unless user has disabled this refresh.
 	- Plan will scan all the .tf scripts in the project directory and it manages to determine 
 	  the changes to be applied to cloud (means it determines the desired state).
 	- Plan will never do any changes to the actual insfrasructure it just gives what desired 
 	  state will be applied.
+	- the terraform plan is used to create a execution plan which internally performs a refresh 
+	  unless user has disabled this refresh.
 	
 	To save a plan in a file : This file will be in binary format 
 		terraform plan -out <file_name>	
@@ -131,7 +125,7 @@ terraform apply
 	To run a particular terraform script
 		terraform apply <script>.tf <script1>.tf
 		
-	To apply a plan file                                                                [The plan file created using terraform plan -out plan.out]
+	To apply a plan file                           [The plan file created using terraform plan -out plan.out]
 		terraform apply <plan_file>
 			
 tarraform destroy 
@@ -151,9 +145,9 @@ terraform show : This command inspects the file and displays resource details.
 
 https://registry.terraform.io/providers/hashicorp/aws/latest/docs  :use documentation
 ------------------------------------------------------------------------------------------------------------------------------------------------------
-Terraform State 
+Terraform State : it is autogenerated file which gives the information about the resources we have provioned for the porject using terraform
 	Local - we can keep the state file locally in the same machine where we 
-		execute the terraform scripts (It will be auto generated by terraform)
+		execute the terraform scripts 
 	
 	Remote state (Backend) 
 		Instead of keeping state file in local we can keep it in a remote location 
@@ -167,6 +161,7 @@ Terraform variable and outputs
 		  is always within that script.
 		- Instead of having same value defined multiple times in same script we can 
 		  use local variable so that changing of value will be easy.
+		  (its called as an argument)
 			locals {
 				var1 = value1
 				var2 = value2
@@ -178,7 +173,7 @@ Terraform variable and outputs
 			To access local variable we use local.<variable> keyword
 
 	Input variables 
-		This is a variable which we can use to pass parameters or user inputs 
+		If i do not want to hardcode any values and want to pass parameters to the script, i use input variables. 
 		to terraform scripts.
 		If we don't define default value then at the time of plan / apply terraform 
 		will ask for value as user input in console.
@@ -205,10 +200,9 @@ Terraform module
 	All the terraform scripts in a folder is called a module 
 
 	Root module 
-	- The .tf files in the main working directory is root module where we have .terrform folder 	
+	- The .tf files in the main working directory is root module where we have .terrform file 	
 	  or .tfstate 
 	- Where we run terraform init 
-	- Every terraform script should be in a module.
 
 	Child module 
 	- Terraform scripts defined in a sub-folder inside root module
@@ -319,7 +313,8 @@ resource "aws_instance" "example" {
   }
 }
 
-In this example, the remote-exec provisioner is used to run commands on the created instance after it has been created.
+In this example, 
+the remote-exec provisioner is used to run commands on the created instance after it has been created.
 
 A "file" provisioner in Terraform allows you to upload a local file to a remote machine created by Terraform as part of a provisioning process. 
 This can be useful for uploading configuration files, scripts, or other files that are needed for the operation of the machine.
