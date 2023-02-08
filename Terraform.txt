@@ -5,6 +5,8 @@
   3. echo $PATH
   4. Add extracted folder of terraform to any of the above path 
       ex: /c/Users/anuka/bin
+      
+      terraform fmt   -> to format the syntax of the yaml file automatically.
   
 terraform -version
 
@@ -481,6 +483,8 @@ terraform import [options] <resource address> <resource ID>
 The resource address is the address of the resource in the Terraform configuration file, and the resource ID is the ID of the existing resource that you want to import.
 For example, if you have an existing AWS S3 bucket with the ID "my-bucket", and you want to import that bucket into Terraform, you would run the following command
 terraform import aws_s3_bucket.example my-bucket
+terraform import <RESOURCE_TYPE>.<NAME> <ID>
+terraform import aws_instance.example i-0123456789abcdef0
 
 This would import the "my-bucket" S3 bucket into Terraform, and create a new state file that includes the S3 bucket as a managed resource. From then on, Terraform will recognize the bucket as a managed resource, and you can use Terraform to update, delete, or track changes to the resource.
 In summary, terraform import is a feature of Terraform and it requires the terraform tool to be installed, 
@@ -571,3 +575,11 @@ Terrafrom blocks that i have written
 	backend
 	terraform
 	required_providers
+	
+Taking backup of a Kubernetes cluster involves backing up the cluster state and etcd data store. 
+STep1: cp - R /etc/k8s/pki    [consists of many certificates and etcd folder]
+Step2: install etcdctl from github   [say u forgot the command]
+Step3: etcdctl command to take snapshot of etcd for backup(long command - we just copy paste it) 
+Step4: etcdctl restore backup command 
+Step5: kubeadm init [again long command : to restore the cluster along with nodes]
+
