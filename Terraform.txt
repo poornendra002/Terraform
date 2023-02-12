@@ -463,18 +463,7 @@ terraform settings
 		}
 
 tf.vars vs variables.tf 
-	variables.tf we can have variable block but variable blocks will not work in tf.vars
-	tf.vars is to create variables whose scope will be at root module level.
-
-	we use variables.tf to declare variables and we use tf.vars to assign value to variables.	
 	
-[ In Terraform, both tf.vars and variables.tf are used to define variables that can be used in the Terraform configuration.
-variables.tf is a file where you can define your variables in (HCL). Variables defined in this file can be used throughout your Terraform configuration.
-
-tf.vars is a file where you can assign values to the variables that are defined in variables.tf. 
-It is a JSON file where you can assign values to the variables.
-
-It's worth noting that variables defined in tf.vars file will overwrite the default values defined in variables.tf file, if the same variable is defined in both files.
 In summary, variables.tf is used to define the variables and their types, while tf.vars is used to assign values to these variables.
 By separating the definition and the assignment of the variables, it allows to keep the structure of the code more clear and also make it easier to manage the same infrastructure in different environments. ]
 
@@ -500,6 +489,10 @@ terraform import aws_instance.example i-0123456789abcdef0
 This would import the "my-bucket" S3 bucket into Terraform, and create a new state file that includes the S3 bucket as a managed resource. From then on, Terraform will recognize the bucket as a managed resource, and you can use Terraform to update, delete, or track changes to the resource.
 In summary, terraform import is a feature of Terraform and it requires the terraform tool to be installed, 
 it also needs a corresponding configuration file and access to the resources. ]
+
+Q) How do remove the lock ID from backend
+By using command line 
+aws s3api delete-object --bucket <bucket_name> --key <key_name>.tflock
 
 Terraform loops (count and for_each)	
 	resource "null_resource" "loop_simple" {
