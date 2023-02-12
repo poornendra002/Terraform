@@ -587,10 +587,8 @@ Terrafrom blocks that i have written
 	terraform
 	required_providers
 	
-Taking backup of a Kubernetes cluster involves backing up the cluster state and etcd data store. 
-STep1: cp - R /etc/k8s/pki    [consists of many certificates and etcd folder]
-Step2: install etcdctl from github   [say u forgot the command]
-Step3: etcdctl command to take snapshot of etcd for backup(long command - we just copy paste it) 
-Step4: etcdctl restore backup command 
-Step5: kubeadm init [again long command : to restore the cluster along with nodes]
+Q) U have created a resource using terraform. Now u do not want to manage it using terraform. How do u remove it?
+terraform state rm <resource_type>.<resource_name>
+
+
 
