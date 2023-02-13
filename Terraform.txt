@@ -423,6 +423,35 @@ data source / data resource
 	- A data source is used to get the information dynamically from cloud.
 	- This block is read-only and this will be always executed on every plan and apply.
 	- we can query the required information and filter the field we want.
+	Q) I have a terraform state file of VPC, i need to extract information from that to my new state file of ec2 instance. how do u
+	do it?
+	first mention output variable for vpc
+	output "vpc_id" {
+	value = ${aws_vpc.<name>.id}
+	
+	Now in ec2 main.tf file
+	data "terraform_remote_state""vpc" {
+	backend = s3
+	
+	config {   #
+	same data mentioned in ur vpc main.tf file
+	bucket=  
+	key=
+	region=
+	}
+	}
+	
+	resources "aws_subnet" "public_subnet" {
+	vpc_id = data.terraform_remote_state.vpc.outputs.<name>.id
+	
+	
+	Incase we are extracting infor from same main file
+	
+	resources "aws_security" "security1" {
+	security_id=aws_subnet.pub;ic_subnet.id
+	
+	Incase we are extracting infor from same module
+	module.resource_type.resource_name
 	
 [ In Terraform, a "data resource" is a way to retrieve information about an existing resource in a provider's API, without making any changes to that resource. 
 This information can then be used in Terraform's configuration and used to create, update or delete other resources. 
