@@ -529,6 +529,13 @@ Q) How do remove the lock ID from backend
 By using command line 
 aws s3api delete-object --bucket <bucket_name> --key <key_name>.tflock
 
+https://www.youtube.com/watch?v=q3bdXrHb6WM&list=PLE4eb9xKom3sco8n-UrEXwzO82v49wgFl&index=10
+
+subnet_id= element (list,count.index)     #need to define count here. Say count is more than list, then it starts list from 0 again in round robin fashion. 
+count.index starts from 0 , 1 , 2...
+
+
+
 Terraform loops (count and for_each)	
 	resource "null_resource" "loop_simple" {
 		count = 2 
