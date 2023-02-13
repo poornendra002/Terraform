@@ -137,6 +137,9 @@ terraform apply
 		
 	To apply a plan file                           [The plan file created using terraform plan -out plan.out]
 		terraform apply <plan_file>
+	
+	To apply one resource block only
+		terraform apply -target=resourcetype.resource_name
 			
 tarraform destroy 
 	- This is used to destroy the resources which are manged by this current terraform 
@@ -399,6 +402,9 @@ Terraform workspace
 	
 	To delete workspace 
 		terraform workspace delete <workspace_name>
+		
+	To show which workspace u r in currently
+		terraform workspace show
 
 	Usage: 
 	   -  We can deploy different version of terraform scripts with states associated with it.
