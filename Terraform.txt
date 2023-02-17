@@ -625,5 +625,37 @@ Terrafrom blocks that i have written
 Q) U have created a resource using terraform. Now u do not want to manage it using terraform. How do u remove it?
 terraform state rm <resource_type>.<resource_name>
 
+Q) You are writing a terraform script to create ec2 instance, you came across a situation that you need to handle some conditions in terraform code. How will you handle these conditions?
+Ex: if env is QA, use particular ami, if env is PROD, use another ami and so on.. How will you handle this?
+
+
+var.a = "" ? var.a : "default-a"
+
+ami = var.environment == "production" ? "ami-xyz123" : "ami-abc123"
+
+Q) You have created terraform file, when you apply it will create an ec2 instance with some EBS volume 100 GB. later you edited it to 200 gb and applied terraform plan again. what will be happening to existing resources?
+# aws_instance.example will be updated in-place
+  
+  ~ resource "aws_instance" "example" {          #   ~ The symbol indicates that the resource will be updated
+        # ... other configuration options ...
+
+        root_block_device {
+            volume_size = 100 -> 200             #   while the -> symbol indicates the change that will be made.
+        }
+    }
+
+# aws_ebs_volume.example will be updated in-place
+  ~ resource "aws_ebs_volume" "example" {
+        # ... other configuration options ...
+
+        size = 100 -> 200
+    }
+    
+    This output indicates that the aws_instance.example resource and the aws_ebs_volume.example resource will both be updated in-place. 
+    If there were any other resources that were affected by the change in the Terraform configuration, they would be listed in the plan output as well, with similar indications of whether they will be created, updated, or destroyed.
+    
+    Q) 
+
+
 
 
